@@ -2,7 +2,7 @@
 using ComputerUtils.ConsoleUi;
 using ComputerUtils.Logging;
 using ComputerUtils.Updating;
-using Iteedee.ApkReader;
+using QuestPatcher.Axml;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -60,6 +60,7 @@ namespace MultiUserADB
             updater.UpdateAssistant();
             Console.WriteLine();
             Console.WriteLine("Welcome to " + MultiUserADBInterface.updater.AppName + " version " + MultiUserADBInterface.updater.version + ". Make sure you have your Quest plugged in via USB and developer mode enabled.");
+            Console.WriteLine();
             while (true)
             {
                 string choice = ConsoleUiController.ShowMenu(new string[] { "Install APK", "Uninstall app", "Exit" });
@@ -97,27 +98,26 @@ namespace MultiUserADB
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public string GetAPKPackageName(String apk)
+        public string GetAPKPackageName(string apk)
         {
             Logger.Log("Getting apk package name");
-            Stopwatch s = Stopwatch.StartNew();
-            ApkReader apkReader = new ApkReader();
-            ApkInfo info = new ApkInfo();
-            try
+            MemoryStream manifestStream = new MemoryStream();
+            ZipArchive apkArchive = ZipFile.OpenRead(apk);
+            apkArchive.GetEntry("AndroidManifest.xml").Open().CopyTo(manifestStream);
+            manifestStream.Position = 0;
+            AxmlElement manifest = AxmlLoader.LoadDocument(manifestStream);
+            string packageName = "";
+            foreach (AxmlAttribute a in manifest.Attributes)
             {
-                // Extract files and read info with APKReader
-                ZipArchive a = ZipFile.OpenRead(apk);
-                a.GetEntry("AndroidManifest.xml").ExtractToFile(exe + "Androidmanifest.xml", true);
-                a.GetEntry("resources.arsc").ExtractToFile(exe + "resources.arsc", true);
-                info = apkReader.extractInfo(File.ReadAllBytes(exe + "AndroidManifest.xml"), File.ReadAllBytes(exe + "resources.arsc"));
+                if (a.Name == "package")
+                {
+                    //Console.WriteLine("\nAPK Version is " + a.Value);
+                    Logger.Log("package is " + a.Value);
+                    packageName = a.Value.ToString();
+                }
             }
-            catch (Exception e)
-            {
-                
-            };
-            s.Stop();
-            Logger.Log("Got APK package name (" + info.packageName + ") in " + s.ElapsedMilliseconds + " ms");
-            return info.packageName;
+            Logger.Log("Got APK package name (" + packageName + ")");
+            return packageName;
         }
 
         public void UninstallAPK()

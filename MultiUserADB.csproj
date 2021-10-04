@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Iteedee.ApkReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iteedee.ApkReader.1.0.1\lib\Iteedee.ApkReader.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -54,16 +51,33 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuestPatcher.Axaml\AttributeType.cs" />
+    <Compile Include="QuestPatcher.Axaml\AxmlAttribute.cs" />
+    <Compile Include="QuestPatcher.Axaml\AxmlElement.cs" />
+    <Compile Include="QuestPatcher.Axaml\AxmlLoader.cs" />
+    <Compile Include="QuestPatcher.Axaml\AxmlParseException.cs" />
+    <Compile Include="QuestPatcher.Axaml\AxmlSaver.cs" />
+    <Compile Include="QuestPatcher.Axaml\BinaryStreamExtensions.cs" />
+    <Compile Include="QuestPatcher.Axaml\ResourceType.cs" />
+    <Compile Include="QuestPatcher.Axaml\SavingContext.cs" />
+    <Compile Include="QuestPatcher.Axaml\StringPool.cs" />
+    <Compile Include="QuestPatcher.Axaml\WrappedValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="QuestPatcher.Axaml\LICENSE" />
+    <None Include="QuestPatcher.Axaml\QuestPatcher.Axml.csproj" />
+    <None Include="QuestPatcher.Axaml\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ComputerUtils\ComputerUtils\ComputerUtils.csproj">
       <Project>{F4A6AA3F-D1B6-42B4-9183-CA3F2D75C7DF}</Project>
       <Name>ComputerUtils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
