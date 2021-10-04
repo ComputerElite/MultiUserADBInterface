@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,7 +52,7 @@ namespace MultiUserADB
 
     class MultiUserADBInterface
     {
-        public static Updater updater = new Updater("1.0.0", "http://github.com/ComputerElite/MultiUserADBInterface", "Multi User ADB Interface");
+        public static Updater updater = new Updater("1.0.1", "http://github.com/ComputerElite/MultiUserADBInterface", "Multi User ADB Interface", Assembly.GetExecutingAssembly().Location);
         public static ADBInteractor interactor = new ADBInteractor();
         public static string exe = AppDomain.CurrentDomain.BaseDirectory;
 
